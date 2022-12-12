@@ -1,0 +1,26 @@
+<?php
+include('../includes/db.php');
+
+$sql = "CREATE TABLE customer(
+    reg VARCHAR(50) PRIMARY KEY,
+    fname varchar(50),
+    lname varchar(50),
+    email varchar(50),
+    password varchar(250),
+    country varchar(50),
+    city varchar(50),
+    contact VARCHAR(20),
+    address VARCHAR(100),
+    profile varchar(250),
+    status varchar(50) default 'Pending',
+    comment text,
+    reg_date timestamp default current_timestamp 
+)"; //reg,name,email,password,country,city,contact,address,status,comment,profile,reg_date
+
+$result = mysqli_query($con, $sql);
+if (!$result) {
+    die("Connection failed: " . $con->connect_error);
+} else {
+    echo "customer table created successfully";
+}
+mysqli_close($con);

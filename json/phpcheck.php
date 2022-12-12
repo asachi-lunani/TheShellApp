@@ -1,0 +1,33 @@
+<?php
+include('../includes/db.php');
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $entry = $_POST["entry"];
+    $query = "SELECT * FROM cart where serial='$entry' order by reg_date desc";
+
+    $response = mysqli_query($con, $query);
+
+    if (mysqli_num_rows($response) > 0) {
+        $results['trust'] = 1;
+        $results['victory'] = array();
+        while ($row = mysqli_fetch_array($response)) {
+            $index['reg'] = $row['reg'];
+            $index['serial'] = $row['serial'];
+            $index['cust_id'] = $row['customer'];
+            $index['product'] = $row['product'];
+            $index['category'] = $row['category'];
+            $index['type'] = $row['type'];
+            $index['price'] = $row['price'];
+            $index['quantity'] = $row['quantity'];
+            $index['image'] = $row['image'];
+            $index['status'] = $row['status'];
+            $index['reg_date'] = $row['reg_date'];
+            array_push($results['victory'], $index);
+        }
+    } else {
+
+        $results['trust'] = 0;
+        $results['mine'] = "No Item";
+        echo json_encode($results);
+    }
+    echo json_encode($results);
+}
